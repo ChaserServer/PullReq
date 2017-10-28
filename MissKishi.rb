@@ -19,7 +19,7 @@ count = 0
 dog = 0     # 斜めの位置に相手がいたときにカウントアップ
 ringo = 0   # dogの値が3になったらリンゴの値を１にする. リンゴの値が１の時、敵から離れたいのか近づくのか \ｺﾚｶﾞﾜｶﾗﾅｲ/
 red = 0     # stageとmodeを使い分けるためのカウンタ(2回ごとに切り替え)
-stage = 1　 # 1Down, 2Right, 3Up, 4Left
+stage = 1   # 1Down, 2Right, 3Up, 4Left
 mode = 1    # 1Down, 2Left, 3Up, 4Right
 cat = 0     # 袋小路対策(同じ辺上の斜め2マスが壁で, 挟まれた1マスがアイテムの時, アイテムの奥が壁か否か確認する) 向きはmodeと同じ
 
