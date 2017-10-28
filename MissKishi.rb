@@ -66,36 +66,297 @@ end
 
 def _moshiItemGaFukurokozi(values, cat, mode, stage action) # getReadyで袋小路の入り口っぽいところにアイテムがある時
   if cat == 1 && values[8] = 2      # catが1で,values[8]が壁のとき
-      cat = 0                       # catを０にする
-      mode =1                       # modeを１にする
-      stage = 1                     # stageを１にする
-      # 袋小路に入らずに下に離脱する
+    cat = 0                       # catを０にする
+    mode =1                       # modeを１にする
+    stage = 1                     # stageを１にする
+    # 袋小路に入らずに下に離脱する
   end　# ここにendを書くと, 以降のelsifに分岐できません.(以下同様)
-  elsif cat == 2 && values[6]= 2    #
-      cat = 0                       #
-      mode = 2                      #
-      stage = 4                     #
-      #袋小路に入らずに右に離脱する
-    end
-  elsif cat == 3 && values[2] = 2   #
-      cat = 0                       #
-      mode = 3                      #
-      stage = 3                     #
-      #袋小路に入らずに上に離脱する
-    end
-  elsif cat == 4 && values[4] = 2   #
-      cat = 0                       #
-      mode = 4                      #
-      stage = 2                     #
-      #袋小路に入らずに左に離脱する
-    end
-  end #条件分岐ここまで
+elsif cat == 2 && values[6]= 2    #
+  cat = 0                       #
+  mode = 2                      #
+  stage = 4                     #
+  #袋小路に入らずに右に離脱する
+end
+elsif cat == 3 && values[2] = 2   #
+  cat = 0                       #
+  mode = 3                      #
+  stage = 3                     #
+  #袋小路に入らずに上に離脱する
+end
+elsif cat == 4 && values[4] = 2   #
+  cat = 0                       #
+  mode = 4                      #
+  stage = 2                     #
+  #袋小路に入らずに左に離脱する
+end
+end #条件分岐ここまで
 end
 
-def _redGaZeroORone(values, ringo, dog)
-  
+def _redGaZeroOrOne(values, ringo, dog, cat, mode, stage)
+  if values[1] == 1 && ringo !=1        #
+    values=target.lookUp                 #
+    dog = dog+1                          #
+  elsif values[3] == 1 && ringo !=1     #
+    values=target.lookUp                 #
+    dog = dog+1                          #
+  elsif values[7] == 1 && ringo !=1     #
+    values =target.lookDown              #
+    dog = dog+1                          #
+  elsif values[9] == 1 && ringo !=1     #
+    values=target.lookDown               #
+    dog = dog +1                         #
+  elsif values[8]==3         #下にアイテムが有るなら
+    if values[7] == 2 && values[9] == 2 && cat !=5
+      values=target.lookDown                       #
+      mode = 1                                     #
+      cat = 1
+      stage = 1
+    else values=target.walkDown                      #
+      mode = 1   #次のターンで下に行く
+      cat = 0
+      stage = 1
+    end                                              #
+  elsif values[6]==3         #右にアイテムがあるなら
+    if values[3]==2 && values[9] == 2 && cat !=5     #
+      values=target.lookRight                        #
+      mode = 2                                       #
+      cat = 2                                      #
+      stage = 4
+    else values = target.walkRight                   #
+      mode = 2                                    #
+      cat = 0                                     #
+      stage = 4
+    end                                              #
+  elsif values[2]==3         #上にアイテムがあるなら#
+    if values[1]==2 && values[3]==2 && cat !=5       #
+      values=target.lookUp                           #
+      mode = 3                                     #
+      cat = 3                                      #
+      stage = 3
+    else values = target.walkUp                      #
+      mode = 3                                        #
+      cat = 0                                         #
+      stage = 3
+    end                                              #
+  elsif values[4]==3         #左にアイテムがあるなら #
+    if values[7]==2 && values[1]==2 && cat !=5       #
+      values=target.lookLeft                         #
+      mode = 4                                     #
+      cat = 4                                      #
+      stage = 2
+    elsif values = target.walkLeft                   #
+      mode = 4                                       #
+      cat = 0                                        #
+      stage = 2
+    end                                              #
+  elsif mode == 1                                    #
+    if values[8] != 2           #下に壁がなければ下へ
+      values = target.walkDown                         #
+      mode = 1                                        #
+      copy = 3                                        #
+      stage = 1
+    elsif   values[4] != 2                            #
+      values = target.walkLeft                         #
+      mode = 4                                         #
+      stage = 2
+    elsif values[2] != 2                              #
+      values=target.walkUp                            #
+      mode = 3                                        #
+      stage = 3
+    elsif values[6] != 2                              #
+      values = target.walkRight                      #
+      mode = 2                                        #
+      stage = 4
+    end                                               #
+  elsif mode == 2                                     #
+    if values[6] != 2                               #
+      values = target.walkRight                       #
+      mode = 2                                        #
+      stage = 4
+    elsif values[8] != 2                              #
+      values=target.walkDown                          #
+      mode = 1                                        #
+      stage = 1
+    elsif values[4] != 2                              #
+      values = target.walkLeft                        #
+      mode = 4                                        #
+      stage = 2
+    elsif values[2] != 2                              #
+      values = target.walkUp                          #
+      mode = 3                                        #
+      stage = 3
+    end                                               #
+  elsif mode == 3                                     #
+    if values[2] != 2           #                     #
+      values = target.walkUp    #                     #
+      mode = 3                                        #
+      stage = 3
+    elsif values[6] != 2                              #
+      values = target.walkRight                       #
+      mode = 2                                        #
+      stage =4
+    elsif values[8] != 2                              #
+      values = target.walkDown                        #
+      mode = 1                                        #
+      stage =1
+    elsif   values[4] != 2                            #
+      values=target.walkLeft                          #
+      mode = 4                                        #
+      stage = 2
+    end                                               #
+  elsif mode == 4                                     #
+    if values[4] != 2                                 #
+      values = target.walkLeft                        #
+      mode = 4                                        #
+      stage = 2
+    elsif values[2] != 2                              #
+      values = target.walkUp  #                       #
+      mode = 3                                        #
+      stage = 3
+    elsif   values[6] != 2                            #
+      values=target.walkRight                         #
+      mode = 2                                        #
+      stage = 4
+    elsif values[8] != 2                              #
+      values=target.walkDown                          #
+      mode = 1                                        #
+      stage = 1
+    end                                               #
+  end
 end
 
+def _redGaTwoOrThree(values, ringo, dog, cat, mode, stage)
+  if values[1] == 1 && ringo !=1        #
+    values=target.lookUp                 #
+    dog = dog+1                          #
+  elsif values[3] == 1 && ringo !=1     #
+    values=target.lookUp                 #
+    dog = dog+1                          #
+  elsif values[7] == 1 && ringo !=1     #
+    values =target.lookDown              #
+    dog = dog+1                          #
+  elsif values[9] == 1 && ringo !=1     #
+    values=target.lookDown               #
+    dog = dog +1                         #
+  elsif values[8]==3         #下にアイテムが有るなら
+    if values[7] == 2 && values[9] == 2 && cat !=5
+      values=target.lookDown                       #
+      mode = 1                                     #
+      cat = 1                                      #
+      stage = 1
+    else values=target.walkDown                      #
+      mode = 1   #次のターンで下に行く
+      cat = 0                                      #
+      stage = 1
+    end                                              #
+  elsif values[6]==3         #右にアイテムがあるなら
+    if values[3]==2 && values[9] == 2 && cat !=5     #
+      values=target.lookRight                        #
+      mode = 2                                       #
+      cat = 2                                      #
+      stage = 4
+    else values = target.walkRight                   #
+      mode = 2                                    #
+      cat = 0                                     #
+      stage = 4
+    end                                              #
+  elsif values[2]==3         #上にアイテムがあるなら#
+    if values[1]==2 && values[3]==2 && cat !=5       #
+      values=target.lookUp                           #
+      mode = 3                                     #
+      cat = 3                                      #
+      stage = 3
+    else values = target.walkUp                      #
+      mode = 3                                        #
+      cat = 0                                         #
+      stage = 3
+    end                                              #
+  elsif values[4]==3         #左にアイテムがあるなら #
+    if values[7]==2 && values[1]==2 && cat !=5       #
+      values=target.lookLeft                         #
+      mode = 4                                     #
+      cat = 4                                      #
+      stage = 2
+    elsif values = target.walkLeft                   #
+      mode = 4                                       #
+      cat = 0                                        #
+      stage = 2
+    end                                              #
+  elsif stage == 1                                    #
+    if values[8] != 2           #下に壁がなければ下へ
+      values = target.walkDown                         #
+      mode = 1                                        #
+      copy = 3                                        #
+      stage = 1
+    elsif   values[4] != 2                            #
+      values = target.walkRight                         #
+      mode = 4                                         #
+      stage = 2
+    elsif values[2] != 2                              #
+      values=target.walkUp                            #
+      mode = 3                                        #
+      stage = 3
+    elsif values[6] != 2                              #
+      values = target.walkLeft                       #
+      mode = 2                                        #
+      stage = 4
+    end                                               #
+  elsif stage == 2                                     #
+    if values[6] != 2                               #
+      values = target.walkRight                       #
+      mode = 4                                        #
+      stage = 2
+    elsif values[8] != 2                              #
+      values=target.walkDown                          #
+      mode = 1                                        #
+      stage = 1
+    elsif values[4] != 2                              #
+      values = target.walkLeft                        #
+      mode = 2                                        #
+      stage = 4
+    elsif values[2] != 2                              #
+      values = target.walkUp                          #
+      mode = 3                                        #
+      stage = 3
+    end                                               #
+  elsif stage == 3                                     #
+    if values[2] != 2                                 #
+      values = target.walkUp                         #
+      mode = 3                                        #
+      stage = 3
+    elsif values[6] != 2                              #
+      values = target.walkLeft                       #
+      mode = 2                                        #
+      stage = 4
+    elsif values[8] != 2                              #
+      values = target.walkDown                        #
+      mode = 1                                        #
+      stage = 1
+    elsif   values[4] != 2                            #
+      values=target.walkRight                          #
+      mode = 4                                        #
+      stage = 2
+    end                                               #
+  elsif stage == 4                                     #
+    if values[4] != 2                                 #
+      values = target.walkLeft                        #
+      mode = 2                                        #
+      stage = 4
+    elsif values[2] != 2                              #
+      values = target.walkUp  #                       #
+      mode = 3                                        #
+      stage = 3
+    elsif   values[6] != 2                            #
+      values=target.walkRight                         #
+      mode = 4                                        #
+      stage = 2
+    elsif values[8] != 2                              #
+      values=target.walkDown                          #
+      mode = 1                                        #
+      stage = 1
+    end                                               #
+  end
+end
 
 loop do # 無限ループ
   values = target.getReady # 準備信号を送り制御情報と周囲情報を取得
@@ -106,300 +367,38 @@ loop do # 無限ループ
 
   _moshiTonariNiTeki(values, action) # getReadyで敵が見つかった時の対処
 
-
-
-
-
-  if red == 1 or red == 0
-    if values[1] == 1 && ringo !=1        #
-      values=target.lookUp                 #
-      dog = dog+1                          #
-    elsif values[3] == 1 && ringo !=1     #
-      values=target.lookUp                 #
-      dog = dog+1                          #
-    elsif values[7] == 1 && ringo !=1     #
-      values =target.lookDown              #
-      dog = dog+1                          #
-    elsif values[9] == 1 && ringo !=1     #
-      values=target.lookDown               #
-      dog = dog +1                         #
-    elsif values[8]==3         #下にアイテムが有るなら
-      if values[7] == 2 && values[9] == 2 && cat !=5
-        values=target.lookDown                       #
-        mode = 1                                     #
-        cat = 1
-        stage = 1
-      else values=target.walkDown                      #
-        mode = 1   #次のターンで下に行く
-        cat = 0
-        stage = 1
-      end                                              #
-    elsif values[6]==3         #右にアイテムがあるなら
-      if values[3]==2 && values[9] == 2 && cat !=5     #
-        values=target.lookRight                        #
-        mode = 2                                       #
-        cat = 2                                      #
-        stage = 4
-      else values = target.walkRight                   #
-        mode = 2                                    #
-        cat = 0                                     #
-        stage = 4
-      end                                              #
-    elsif values[2]==3         #上にアイテムがあるなら#
-      if values[1]==2 && values[3]==2 && cat !=5       #
-        values=target.lookUp                           #
-        mode = 3                                     #
-        cat = 3                                      #
-        stage = 3
-      else values = target.walkUp                      #
-        mode = 3                                        #
-        cat = 0                                         #
-        stage = 3
-      end                                              #
-    elsif values[4]==3         #左にアイテムがあるなら #
-      if values[7]==2 && values[1]==2 && cat !=5       #
-        values=target.lookLeft                         #
-        mode = 4                                     #
-        cat = 4                                      #
-        stage = 2
-      elsif values = target.walkLeft                   #
-        mode = 4                                       #
-        cat = 0                                        #
-        stage = 2
-      end                                              #
-    elsif mode == 1                                    #
-      if values[8] != 2           #下に壁がなければ下へ
-        values = target.walkDown                         #
-        mode = 1                                        #
-        copy = 3                                        #
-        stage = 1
-      elsif   values[4] != 2                            #
-        values = target.walkLeft                         #
-        mode = 4                                         #
-        stage = 2
-      elsif values[2] != 2                              #
-        values=target.walkUp                            #
-        mode = 3                                        #
-        stage = 3
-      elsif values[6] != 2                              #
-        values = target.walkRight                      #
-        mode = 2                                        #
-        stage = 4
-      end                                               #
-    elsif mode == 2                                     #
-      if values[6] != 2                               #
-        values = target.walkRight                       #
-        mode = 2                                        #
-        stage = 4
-      elsif values[8] != 2                              #
-        values=target.walkDown                          #
-        mode = 1                                        #
-        stage = 1
-      elsif values[4] != 2                              #
-        values = target.walkLeft                        #
-        mode = 4                                        #
-        stage = 2
-      elsif values[2] != 2                              #
-        values = target.walkUp                          #
-        mode = 3                                        #
-        stage = 3
-      end                                               #
-    elsif mode == 3                                     #
-      if values[2] != 2           #                     #
-        values = target.walkUp    #                     #
-        mode = 3                                        #
-        stage = 3
-      elsif values[6] != 2                              #
-        values = target.walkRight                       #
-        mode = 2                                        #
-        stage =4
-      elsif values[8] != 2                              #
-        values = target.walkDown                        #
-        mode = 1                                        #
-        stage =1
-      elsif   values[4] != 2                            #
-        values=target.walkLeft                          #
-        mode = 4                                        #
-        stage = 2
-      end                                               #
-    elsif mode == 4                                     #
-      if values[4] != 2                                 #
-        values = target.walkLeft                        #
-        mode = 4                                        #
-        stage = 2
-      elsif values[2] != 2                              #
-        values = target.walkUp  #                       #
-        mode = 3                                        #
-        stage = 3
-      elsif   values[6] != 2                            #
-        values=target.walkRight                         #
-        mode = 2                                        #
-        stage = 4
-      elsif values[8] != 2                              #
-        values=target.walkDown                          #
-        mode = 1                                        #
-        stage = 1
-      end                                               #
-    end
-  elsif red == 3 or red == 2
-    if values[1] == 1 && ringo !=1        #
-      values=target.lookUp                 #
-      dog = dog+1                          #
-    elsif values[3] == 1 && ringo !=1     #
-      values=target.lookUp                 #
-      dog = dog+1                          #
-    elsif values[7] == 1 && ringo !=1     #
-      values =target.lookDown              #
-      dog = dog+1                          #
-    elsif values[9] == 1 && ringo !=1     #
-      values=target.lookDown               #
-      dog = dog +1                         #
-    elsif values[8]==3         #下にアイテムが有るなら
-      if values[7] == 2 && values[9] == 2 && cat !=5
-        values=target.lookDown                       #
-        mode = 1                                     #
-        cat = 1                                      #
-        stage = 1
-      else values=target.walkDown                      #
-        mode = 1   #次のターンで下に行く
-        cat = 0                                      #
-        stage = 1
-      end                                              #
-    elsif values[6]==3         #右にアイテムがあるなら
-      if values[3]==2 && values[9] == 2 && cat !=5     #
-        values=target.lookRight                        #
-        mode = 2                                       #
-        cat = 2                                      #
-        stage = 4
-      else values = target.walkRight                   #
-        mode = 2                                    #
-        cat = 0                                     #
-        stage = 4
-      end                                              #
-    elsif values[2]==3         #上にアイテムがあるなら#
-      if values[1]==2 && values[3]==2 && cat !=5       #
-        values=target.lookUp                           #
-        mode = 3                                     #
-        cat = 3                                      #
-        stage = 3
-      else values = target.walkUp                      #
-        mode = 3                                        #
-        cat = 0                                         #
-        stage = 3
-      end                                              #
-    elsif values[4]==3         #左にアイテムがあるなら #
-      if values[7]==2 && values[1]==2 && cat !=5       #
-        values=target.lookLeft                         #
-        mode = 4                                     #
-        cat = 4                                      #
-        stage = 2
-      elsif values = target.walkLeft                   #
-        mode = 4                                       #
-        cat = 0                                        #
-        stage = 2
-      end                                              #
-    elsif stage == 1                                    #
-      if values[8] != 2           #下に壁がなければ下へ
-        values = target.walkDown                         #
-        mode = 1                                        #
-        copy = 3                                        #
-        stage = 1
-      elsif   values[4] != 2                            #
-        values = target.walkRight                         #
-        mode = 4                                         #
-        stage = 2
-      elsif values[2] != 2                              #
-        values=target.walkUp                            #
-        mode = 3                                        #
-        stage = 3
-      elsif values[6] != 2                              #
-        values = target.walkLeft                       #
-        mode = 2                                        #
-        stage = 4
-      end                                               #
-    elsif stage == 2                                     #
-      if values[6] != 2                               #
-        values = target.walkRight                       #
-        mode = 4                                        #
-        stage = 2
-      elsif values[8] != 2                              #
-        values=target.walkDown                          #
-        mode = 1                                        #
-        stage = 1
-      elsif values[4] != 2                              #
-        values = target.walkLeft                        #
-        mode = 2                                        #
-        stage = 4
-      elsif values[2] != 2                              #
-        values = target.walkUp                          #
-        mode = 3                                        #
-        stage = 3
-      end                                               #
-    elsif stage == 3                                     #
-      if values[2] != 2                                 #
-        values = target.walkUp                         #
-        mode = 3                                        #
-        stage = 3
-      elsif values[6] != 2                              #
-        values = target.walkLeft                       #
-        mode = 2                                        #
-        stage = 4
-      elsif values[8] != 2                              #
-        values = target.walkDown                        #
-        mode = 1                                        #
-        stage = 1
-      elsif   values[4] != 2                            #
-        values=target.walkRight                          #
-        mode = 4                                        #
-        stage = 2
-      end                                               #
-    elsif stage == 4                                     #
-      if values[4] != 2                                 #
-        values = target.walkLeft                        #
-        mode = 2                                        #
-        stage = 4
-      elsif values[2] != 2                              #
-        values = target.walkUp  #                       #
-        mode = 3                                        #
-        stage = 3
-      elsif   values[6] != 2                            #
-        values=target.walkRight                         #
-        mode = 4                                        #
-        stage = 2
-      elsif values[8] != 2                              #
-        values=target.walkDown                          #
-        mode = 1                                        #
-        stage = 1
-      end                                               #
-    end
-
+  if red == 0 or red == 1
+    _redGaZeroOrOne(values, ringo, dog, cat, mode, stage) #redの値によって動作を変える
+  elsif red == 2 or red == 3
+    _redGaTwoOrThree(values, ringo, dog, cat, mode, stage)
     if red == 3
       red = 0
       stage = mode
     end
-
-    count = count + 1                                   #
-
-    if count % 7 == 0 && mode == 2 or count % 7 == 0 && mode == 4 or count % 7 ==0 && stage == 2 or count%7 ==0 && stage ==4   #countが７の時とmodeが２の時　か　countが７の時とmodeが４の時
-      work = rand(2)                                              #
-      if  work == 0                                                 #
-        mode = work+1                                                #
-        stage = work+1
-      elsif  work == 1                                              #
-        mode = work+2                                                 #
-        stage = work+2
-      end #以降のelsifに分岐できません
-    elsif count % 7 == 0 && mode == 3 or count % 7 == 0 && mode == 1 or count %7 ==0 && stage == 3 or count %7 == 0 && stage == 1#
-      work = rand(2)                                              #
-      if work == 0                                                  #
-        mode = work+2                                                #
-        stage = work+2
-      elsif work == 1                                               #
-        mode = work +3                                               #
-        stage = work +3
-      end                                                           #
-    end                                                            #
   end
+
+  count = count + 1
+
+  if count % 7 == 0 && mode == 2 or count % 7 == 0 && mode == 4 or count % 7 ==0 && stage == 2 or count%7 ==0 && stage ==4   #countが７の時とmodeが２の時　か　countが７の時とmodeが４の時
+    work = rand(2)                                              #
+    if  work == 0                                                 #
+      mode = work+1                                                #
+      stage = work+1
+    elsif  work == 1                                              #
+      mode = work+2                                                 #
+      stage = work+2
+    end #以降のelsifに分岐できません
+  elsif count % 7 == 0 && mode == 3 or count % 7 == 0 && mode == 1 or count %7 ==0 && stage == 3 or count %7 == 0 && stage == 1#
+    work = rand(2)                                              #
+    if work == 0                                                  #
+      mode = work+2                                                #
+      stage = work+2
+    elsif work == 1                                               #
+      mode = work +3                                               #
+      stage = work +3
+    end                                                           #
+  end                                                            #
+# end ←これ要る？
 
   if dog == 0                                                    #
     ringo = 0                                                    #
@@ -409,8 +408,8 @@ loop do # 無限ループ
 
 
 
-
-  if values[5] == 3 or values[5] == 0 and cat !=0            #
+  #この条件分岐は？
+  if values[5] == 3 or values[5] == 0 and cat !=0 # values[5] != 2 を表したいのでしょうか？
     cat = 5                                                  #
   end                                                        #
 
@@ -419,7 +418,7 @@ loop do # 無限ループ
   else
     red = 0
   end
-  #----- ここまで -----
+#----- ここまで -----
 end
 
 target.close # ソケットを閉じる
