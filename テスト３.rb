@@ -43,6 +43,12 @@ def _moshiTonariNiTeki(values, action) # getReadyの隣接する見つかった�
   end
 end
 
+def _moshiNanameNiTeki(values, dog, ringo,action) # getReadyで斜め位置に敵を見つけた時の処理
+end
+
+def _moshiItemGaFukurokozi(values, action) # getReadyで袋小路の入り口っぽいところにアイテムがある時
+end
+
 
 
 
