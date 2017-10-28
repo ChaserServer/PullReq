@@ -17,7 +17,7 @@ copy = Array.new(10)
 # 岸さんのプログラムで使われている変数と説明
 count = 0
 dog = 0     # 斜めの位置に相手がいたときにカウントアップ
-ringo = 0   # dogの値が3になったらリンゴの値を１にする. リンゴの値が１の時、敵から離れたいのか近づくのか
+ringo = 0   # dogの値が3になったらリンゴの値を１にする. リンゴの値が１の時、敵から離れたいのか近づくのか \ｺﾚｶﾞﾜｶﾗﾅｲ/
 red = 0     # stageとmodeを使い分けるためのカウンタ(2回ごとに切り替え)
 stage = 1　 # 1Down, 2Right, 3Up, 4Left
 mode = 1    # 1Down, 2Left, 3Up, 4Right
@@ -72,25 +72,25 @@ def _moshiItemGaFukurokozi(values, cat, mode, stage action) # getReadyで袋小�
     stage = 1                     # stageを１にする
     # 袋小路に入らずに下に離脱する
   end　# ここにendを書くと, 以降のelsifに分岐できません.(以下同様)
-  elsif cat == 2 && values[6]= 2    #
-    cat = 0                       #
-    mode = 2                      #
-    stage = 4                     #
-    #袋小路に入らずに右に離脱する
-  end
-  elsif cat == 3 && values[2] = 2   #
-    cat = 0                       #
-    mode = 3                      #
-    stage = 3                     #
-    #袋小路に入らずに上に離脱する
-  end
-  elsif cat == 4 && values[4] = 2   #
-    cat = 0                       #
-    mode = 4                      #
-    stage = 2                     #
-    #袋小路に入らずに左に離脱する
-  end　#条件分岐ここまで
+elsif cat == 2 && values[6]= 2    #
+  cat = 0                       #
+  mode = 2                      #
+  stage = 4                     #
+  #袋小路に入らずに右に離脱する
 end
+elsif cat == 3 && values[2] = 2   #
+  cat = 0                       #
+  mode = 3                      #
+  stage = 3                     #
+  #袋小路に入らずに上に離脱する
+end
+elsif cat == 4 && values[4] = 2   #
+  cat = 0                       #
+  mode = 4                      #
+  stage = 2                     #
+  #袋小路に入らずに左に離脱する
+end　#条件分岐ここまで
+# end ←koreiru?
 # end ←これ要る？
 
 def _redGaZeroOrOne(values, ringo, dog, cat, mode, stage, action)
@@ -465,10 +465,6 @@ loop do # 無限ループ
   end
 
   _changeMode(count, work, mode, stage)
-
-
-
-
 
   #この条件分岐は？
   if values[5] == 3 or values[5] == 0 and cat !=0 # values[5] != 2 を表したいのでしょうか？
