@@ -67,7 +67,7 @@ end
 
 
 def _moshiItemGaFukurokozi(values, cat, mode, stage, action) # getReadyで袋小路の入り口っぽいところにアイテムがある時
-  if cat == 1 && values[8] == 2    # catが1で,values[8]が壁のとき
+  if cat == 1 && values[8] == 2   # catが1で,values[8]が壁のとき
     cat = 0                       # catを０にする
     mode =1                       # modeを１にする
     stage = 1                     # stageを１にする
@@ -76,20 +76,19 @@ def _moshiItemGaFukurokozi(values, cat, mode, stage, action) # getReadyで袋小
     cat = 0
     mode = 2
     stage = 4
-    #袋小路に入らずに右に離脱する
+    # 袋小路に入らずに右に離脱する
   elsif cat == 3 && values[2] == 2
     cat = 0
     mode = 3
     stage = 3
-    #袋小路に入らずに上に離脱する
+    # 袋小路に入らずに上に離脱する
   elsif cat == 4 && values[4] == 2
     cat = 0
     mode = 4
     stage = 2
-    #袋小路に入らずに左に離脱する
-  end　#条件分岐ここまで
+    # 袋小路に入らずに左に離脱する
+  end # 条件分岐ここまで
 end
-# end ←これ要る？
 
 
 def _redGaZeroOrOne(values, ringo, dog, cat, mode, stage, action)
@@ -426,7 +425,7 @@ end
 def _changeMode(count, work, mode, stage)
   count = count + 1
 
-  if count % 7 == 0 && mode == 2 or count % 7 == 0 && mode == 4 or count % 7 ==0 && stage == 2 or count%7 ==0 && stage == 4   # countが７の時とmodeが２の時　か　countが７の時とmodeが４の時
+  if count % 7 == 0 && mode == 2 or count % 7 == 0 && mode == 4 or count % 7 ==0 && stage == 2 or count%7 ==0 && stage == 4   # countが７の時とmodeが２の時 か countが７の時とmodeが４の時
     work = rand(2)
     if  work == 0
       mode = work + 1
