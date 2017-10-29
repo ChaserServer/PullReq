@@ -144,7 +144,8 @@ def _redGaZeroOrOne(values, ringo, dog, cat, mode, stage, action)
       cat = 3
       stage = 3
       action = 1
-    else values = target.walkUp
+    else
+      values = target.walkUp
       mode = 3
       cat = 0
       stage = 3
@@ -157,7 +158,8 @@ def _redGaZeroOrOne(values, ringo, dog, cat, mode, stage, action)
       cat = 4
       stage = 2
       action = 1
-    elsif values = target.walkLeft
+    else
+      values = target.walkLeft
       mode = 4
       cat = 0
       stage = 2
@@ -170,7 +172,7 @@ def _redGaZeroOrOne(values, ringo, dog, cat, mode, stage, action)
       copy = 3
       stage = 1
       action = 1
-    elsif   values[4] != 2
+    elsif values[4] != 2
       values = target.walkLeft
       mode = 4
       stage = 2
@@ -294,7 +296,8 @@ def _redGaTwoOrThree(values, ringo, dog, cat, mode, stage)
       cat = 2
       stage = 4
       action = 1
-    else values = target.walkRight
+    else
+      values = target.walkRight
       mode = 2
       cat = 0
       stage = 4
@@ -307,7 +310,8 @@ def _redGaTwoOrThree(values, ringo, dog, cat, mode, stage)
       cat = 3
       stage = 3
       action = 1
-    else values = target.walkUp
+    else
+      values = target.walkUp
       mode = 3
       cat = 0
       stage = 3
@@ -430,60 +434,60 @@ def _changeMode(count, work, mode, stage)
     elsif  work == 1
       mode = work + 2
       stage = work + 2
-    # end #以降のelsifに分岐できません
-  elsif count % 7 == 0 && mode == 3 or count % 7 == 0 && mode == 1 or count %7 ==0 && stage == 3 or count %7 == 0 && stage == 1
-    work = rand(2)
-    if work == 0
-      mode = work + 2
-      stage = work + 2
-    elsif work == 1
-      mode = work + 3
-      stage = work + 3
+      # end #以降のelsifに分岐できません
+    elsif count % 7 == 0 && mode == 3 or count % 7 == 0 && mode == 1 or count %7 ==0 && stage == 3 or count %7 == 0 && stage == 1
+      work = rand(2)
+      if work == 0
+        mode = work + 2
+        stage = work + 2
+      elsif work == 1
+        mode = work + 3
+        stage = work + 3
+      end
     end
   end
-end
 
 
 
-loop do # 無限ループ
-  values = target.getReady # 準備信号を送り制御情報と周囲情報を取得
-  if values[0] == 0        # 制御情報が0なら終了
-    break
+  loop do # 無限ループ
+    values = target.getReady # 準備信号を送り制御情報と周囲情報を取得
+    if values[0] == 0        # 制御情報が0なら終了
+      break
+    end
+
+
+    #----- ここから -----
+    action = 0                              # 命令フラグを初期化
+    _moshiTonariNiTeki(values, action)      # getReadyで敵が隣にいた時の対処
+    _moshiNanameNiTeki(values, dog, ringo)  # getReadyで斜めに敵がいる時の対処
+
+    if (red == 0 or red == 1) and action == 0
+      _redGaZeroOrOne(values, ringo, dog, cat, mode, stage)   # redの値によって動作を変える
+    elsif (red == 2 or red == 3) and action == 0
+      _redGaTwoOrThree(values, ringo, dog, cat, mode, stage)  # redの値によって動作を変える
+    end
+
+    if red == 3
+      red = 0
+      stage = mode
+    end
+
+    _changeMode(count, work, mode, stage)
+
+    #この条件分岐は？
+    if values[5] == 3 or values[5] == 0 and cat != 0   # values[5] != 2 を表したいのでしょうか？
+      cat = 5
+    end
+
+    if red <= 2
+      red = red + 1
+    else
+      red = 0
+    end
+    #463行目と475行目のコードを見ると, red == 3 になるタイミングが来ないと思われます
+
+
+    #----- ここまで -----
   end
 
-
-  #----- ここから -----
-  action = 0                              # 命令フラグを初期化
-  _moshiTonariNiTeki(values, action)      # getReadyで敵が隣にいた時の対処
-  _moshiNanameNiTeki(values, dog, ringo)  # getReadyで斜めに敵がいる時の対処
-
-  if (red == 0 or red == 1) and action == 0
-    _redGaZeroOrOne(values, ringo, dog, cat, mode, stage)   # redの値によって動作を変える
-  elsif (red == 2 or red == 3) and action == 0
-    _redGaTwoOrThree(values, ringo, dog, cat, mode, stage)  # redの値によって動作を変える
-  end
-
-  if red == 3
-    red = 0
-    stage = mode
-  end
-
-  _changeMode(count, work, mode, stage)
-
-  #この条件分岐は？
-  if values[5] == 3 or values[5] == 0 and cat != 0   # values[5] != 2 を表したいのでしょうか？
-    cat = 5
-  end
-
-  if red <= 2
-    red = red + 1
-  else
-    red = 0
-  end
-  #463行目と475行目のコードを見ると, red == 3 になるタイミングが来ないと思われます
-
-
-  #----- ここまで -----
-end
-
-target.close # ソケットを閉じる
+  target.close # ソケットを閉じる
