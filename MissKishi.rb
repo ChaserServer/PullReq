@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 # Test用プログラム 壁にそって進む
 
@@ -19,7 +18,7 @@ count = 0
 dog = 0     # 斜めの位置に相手がいたときにカウントアップ
 ringo = 0   # dogの値が3になったらリンゴの値を１にする. リンゴの値が１の時、敵から離れたいのか近づくのか \ｺﾚｶﾞﾜｶﾗﾅｲ/
 red = 0     # stageとmodeを使い分けるためのカウンタ(2回ごとに切り替え)
-stage = 1   # 1Down, 2Right, 3Up, 4Left
+stage = 1 # 1Down, 2Right, 3Up, 4Left
 mode = 1    # 1Down, 2Left, 3Up, 4Right
 cat = 0     # 袋小路対策(同じ辺上の斜め2マスが壁で, 挟まれた1マスがアイテムの時, アイテムの奥が壁か否か確認する) 向きはmodeと同じ
 
@@ -225,6 +224,7 @@ def _redGaZeroOrOne(values, ringo, dog, cat, mode, stage, action)
       mode = 1
       stage =1
       action = 1
+
     elsif   values[4] != 2
       values = target.walkLeft
       mode = 4
@@ -445,6 +445,8 @@ def _changeMode(count, work, mode, stage)
       end
     end
   end
+end
+
 
 
 
@@ -459,7 +461,7 @@ def _changeMode(count, work, mode, stage)
     action = 0                              # 命令フラグを初期化
     _moshiTonariNiTeki(values, action)      # getReadyで敵が隣にいた時の対処
     _moshiNanameNiTeki(values, dog, ringo)  # getReadyで斜めに敵がいる時の対処
-
+    
     if (red == 0 or red == 1) and action == 0
       _redGaZeroOrOne(values, ringo, dog, cat, mode, stage)   # redの値によって動作を変える
     elsif (red == 2 or red == 3) and action == 0
@@ -489,4 +491,6 @@ def _changeMode(count, work, mode, stage)
     #----- ここまで -----
   end
 
-  target.close # ソケットを閉じる
+target.close # ソケットを閉じる
+
+
