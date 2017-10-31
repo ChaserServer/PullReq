@@ -21,6 +21,7 @@ red = 0     # stageとmodeを使い分けるためのカウンタ(2回ごとに�
 stage = 1 # 1Down, 2Right, 3Up, 4Left
 mode = 1    # 1Down, 2Left, 3Up, 4Right
 cat = 0     # 袋小路対策(同じ辺上の斜め2マスが壁で, 挟まれた1マスがアイテムの時, アイテムの奥が壁か否か確認する) 向きはmodeと同じ
+work = 0    #
 
 # 追加変数
 action = 0 # サーバに命令を送ったかどうかチェックする(命令したら1にする)
@@ -89,8 +90,7 @@ def _moshiItemGaFukurokozi(values, cat, mode, stage, action) # getReadyで袋小
   end # 条件分岐ここまで
 end
 
-
-def _redGaZeroOrOne(values, ringo, dog, cat, mode, stage, action)
+def _redGaZeroOrOne(values, ringo, dog, cat, mode, stage, action,target)
   if values[1] == 1 && ringo != 1
     values = target.lookUp
     dog = dog + 1
@@ -257,7 +257,7 @@ def _redGaZeroOrOne(values, ringo, dog, cat, mode, stage, action)
 end
 
 
-def _redGaTwoOrThree(values, ringo, dog, cat, mode, stage)
+def _redGaTwoOrThree(values, ringo, dog, cat, mode, stage, target)
   if values[1] == 1 && ringo != 1
     values = target.lookUp
     dog = dog + 1
@@ -463,9 +463,9 @@ end
     _moshiNanameNiTeki(values, dog, ringo)  # getReadyで斜めに敵がいる時の対処
     
     if (red == 0 or red == 1) and action == 0
-      _redGaZeroOrOne(values, ringo, dog, cat, mode, stage)   # redの値によって動作を変える
+      _redGaZeroOrOne(values, ringo, dog, cat, mode, stage, action, target)   # redの値によって動作を変える
     elsif (red == 2 or red == 3) and action == 0
-      _redGaTwoOrThree(values, ringo, dog, cat, mode, stage)  # redの値によって動作を変える
+      _redGaTwoOrThree(values, ringo, dog, cat, mode, stage, target)  # redの値によって動作を変える
     end
 
     if red == 3
