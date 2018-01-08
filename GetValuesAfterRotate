@@ -1,4 +1,4 @@
-_def rotate(array, direction)
+def _rotate(array, direction)
   n = 1         # マジックナンバーよくない
   matsize = 3   # マジックナンバーよくない
   valsize = 9   # マジックナンバーよくない
