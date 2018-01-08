@@ -1,19 +1,16 @@
 _def rotate(values, direction)
-  int i
-  int j
-  int k
-  int n = 1         # マジックナンバーよくない
-  int matsize = 3   # マジックナンバーよくない
-  int valsize = 9   # マジックナンバーよくない
-  int matrix[matsize][matsize]
-  int rotmat[matsize][matsize]
-  int rotval[valsize]
+  n = 1         # マジックナンバーよくない
+  matsize = 3   # マジックナンバーよくない
+  valsize = 9   # マジックナンバーよくない
+  matrix[matsize][matsize]
+  rotmat[matsize][matsize]
+  rotval[valsize]
 
   # 1次元配列から2次元配列に変換
   for i in 0..2 do
     for j in 0..2 do
       matrix[i][j] = values[n]
-      n++
+      n += 1
     end
   end
 
@@ -31,20 +28,28 @@ _def rotate(values, direction)
   for i in 0..2 do
     for j in 0..2 do
       rotval[n] = rotmat[i][j]
-      n++
+      n += 1
     end
   end
-
 
   # 動作確認用
   n = 1
   for i in 0..2 do
     for j in 0..2 do
       print values[n]
-      n++
+      n += 1
     end
     print "\n"
   end
 
   return rotval
 end
+
+
+values = [1,2,3,4,5,6,7,8,9]
+tekito
+
+tekito = rotate(values, 0)
+tekito = rotate(values, 1)
+tekito = rotate(values, 2)
+tekito = rotate(values, 3)
