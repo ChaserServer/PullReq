@@ -1,0 +1,50 @@
+_def rotate(values, direction)
+  int i
+  int j
+  int k
+  int n = 1         # マジックナンバーよくない
+  int matsize = 3   # マジックナンバーよくない
+  int valsize = 9   # マジックナンバーよくない
+  int matrix[matsize][matsize]
+  int rotmat[matsize][matsize]
+  int rotval[valsize]
+
+  # 1次元配列から2次元配列に変換
+  for i in 0..2 do
+    for j in 0..2 do
+      matrix[i][j] = values[n]
+      n++
+    end
+  end
+
+  # 進行方向へ時計回りに回転
+  for k in 0..direction do
+    for i in 0..2 do
+      for j in 0..2 do
+        rotmat[j, 2-i] = matrix[i][j]
+      end
+    end
+  end
+
+  # 2次元配列から1次元配列に変換
+  n = 1 # nを再び初期化
+  for i in 0..2 do
+    for j in 0..2 do
+      rotval[n] = rotmat[i][j]
+      n++
+    end
+  end
+
+
+  # 動作確認用
+  n = 1
+  for i in 0..2 do
+    for j in 0..2 do
+      print values[n]
+      n++
+    end
+    print "\n"
+  end
+
+  return rotval
+end
