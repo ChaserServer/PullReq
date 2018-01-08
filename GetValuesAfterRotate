@@ -1,4 +1,4 @@
-_def rotate(values, direction)
+_def rotate(array, direction)
   n = 1         # マジックナンバーよくない
   matsize = 3   # マジックナンバーよくない
   valsize = 9   # マジックナンバーよくない
@@ -9,7 +9,7 @@ _def rotate(values, direction)
   # 1次元配列から2次元配列に変換
   for i in 0..2 do
     for j in 0..2 do
-      matrix[i][j] = values[n]
+      matrix[i][j] = array[n]
       n += 1
     end
   end
@@ -36,7 +36,7 @@ _def rotate(values, direction)
   n = 1
   for i in 0..2 do
     for j in 0..2 do
-      print values[n]
+      print rotval[n]
       n += 1
     end
     print "\n"
