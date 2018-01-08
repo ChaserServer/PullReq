@@ -1,55 +1,42 @@
-def _rotate(array, direction)
-  n = 1         # マジックナンバーよくない
-  matsize = 3   # マジックナンバーよくない
-  valsize = 9   # マジックナンバーよくない
-  matrix[matsize][matsize]
-  rotmat[matsize][matsize]
-  rotval[valsize]
+def _display mat
+  mat.each do |row|
+    puts row.join(' ')
+  end
+  puts
+end
+
+
+def _rotate valarray, direction
+  n = 0
+  matrix = Array.new(3, Array.new(3))
 
   # 1次元配列から2次元配列に変換
-  for i in 0..2 do
-    for j in 0..2 do
-      matrix[i][j] = array[n]
-      n += 1
-    end
-  end
+  valarray.each_slice(3){|matrix| print "(" + matrix.join(",") + ") " }
 
   # 進行方向へ時計回りに回転
-  for k in 0..direction do
-    for i in 0..2 do
-      for j in 0..2 do
-        rotmat[j, 2-i] = matrix[i][j]
-      end
-    end
+  case direction
+  when 0 then
+    _display matrix
+  when 1 then
+    _display matrix.reverse.transpose #=> 右回転
+  when 2 then
+    _display matrix.reverse.map(&:reverse) #=> 180度回転
+  when 3 then
+    _display matrix.transpose.reverse #=> 左回転
+  else
+    puts("error: direction")
   end
+
 
   # 2次元配列から1次元配列に変換
-  n = 1 # nを再び初期化
-  for i in 0..2 do
-    for j in 0..2 do
-      rotval[n] = rotmat[i][j]
-      n += 1
-    end
-  end
+  values = matrix.flatten
 
-  # 動作確認用
-  n = 1
-  for i in 0..2 do
-    for j in 0..2 do
-      print rotval[n]
-      n += 1
-    end
-    print "\n"
-  end
-
-  return rotval
 end
 
 
 values = [1,2,3,4,5,6,7,8,9]
-tekito
 
-tekito = rotate(values, 0)
-tekito = rotate(values, 1)
-tekito = rotate(values, 2)
-tekito = rotate(values, 3)
+_rotate(values, 0)
+_rotate(values, 1)
+_rotate(values, 2)
+_rotate(values, 3)
