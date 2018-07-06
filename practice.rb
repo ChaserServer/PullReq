@@ -8,6 +8,65 @@ random = Random.new # 乱数生成
 
 hoko = 0 # 向きは時計の針の向き
 
+turn = 0
+
+uenosaki 		= Array.new(10) #LookUp
+miginosaki   	= Array.new(10) #LookRight
+shitanosaki  	= Array.new(10) #LookDown
+hidarinosaki 	= Array.new(10) #LookLeft
+
+#先を見る？
+def _tamanisakiwomiru(hoko, uenosaki, miginosaki, shitanosaki, hidarinosaki, target)
+	case hoko
+		when 0
+			uenosaki = _sakiwomiru(hoko, uenosaki, target)
+			hoko = _nanimonai(hoko, uenosaki)
+		when 3
+			miginosaki = _sakiwomiru(hoko, miginosaki, target)
+			hoko = _nanimonai(hoko, miginosaki)
+		when 6
+			shitanosaki = _sakiwomiru(hoko, shitanosaki, target)
+			hoko = _nanimonai(hoko, miginosaki)
+		when 9
+			hidarinosaki = _sakiwomiru(hoko, hidarinosaki, target)
+			hoko = _nanimonai(hoko, hidarinosaki)
+		end
+		return hoko
+end
+
+#先を見よう
+def _sakiwomiru(hoko, saki, target)
+	case hoko
+	when 0
+		saki = target.searchUp
+	when 3
+		saki = target.searchRight
+	when 6
+		saki = target.searchDown
+	when 9
+		saki = target.searchLeft
+	end
+	return saki
+end
+
+
+#直線上に何もなければ方向転換
+def _nanimonai(hoko, values)
+	nai = 0
+
+	for i in 1..9
+		if values[i] == 3
+			nai = 1
+		end
+	end
+
+	if nai == 0
+		hoko = (hoko + 3) % 12
+	end
+
+	return hoko
+end
+
 #壁を避けよう
 def _kabeyoke(hoko, values)
 	loop do
@@ -131,10 +190,33 @@ loop do
 	#	end
 	#end
 
-	#壁をよけよう
-	hoko = _mayokoniaitemugaaru(hoko, values)
-	hoko = _kabeyoke(hoko, values)
-	puts hoko
+	
+	if ( turn % 5 ) == 0 #5ターン毎に先を見る
+		#先を見よう
+		hoko = _tamanisakiwomiru(hoko, uenosaki, miginosaki, shitanosaki, hidarinosaki,  target)
+=begin
+
+		case hoko
+		when 0
+			uenosaki = _sakiwomiru(hoko, uenosaki, target)
+			hoko = _nanimonai(hoko, uenosaki)
+		when 3
+			miginosaki = _sakiwomiru(hoko, miginosaki, target)
+			hoko = _nanimonai(hoko, miginosaki)
+		when 6
+			shitanosaki = _sakiwomiru(hoko, shitanosaki, target)
+			hoko = _nanimonai(hoko, miginosaki)
+		when 9
+			hidarinosaki = _sakiwomiru(hoko, hidarinosaki, target)
+			hoko = _nanimonai(hoko, hidarinosaki)
+		end
+=end
+	else
+		#壁をよけよう
+		hoko = _mayokoniaitemugaaru(hoko, values)
+		hoko = _kabeyoke(hoko, values)
+		puts hoko
+
 =begin
 	loop do
 		if hoko == 0 #上に行きたい
@@ -165,8 +247,10 @@ loop do
 	end
 =end
 
-	#行動しよう
-	_aruku(hoko, values, target)
+		#行動しよう
+		_aruku(hoko, values, target)
+	end
+	turn += 1
 =begin
 	#ステップ5でメソッド化
 	#行動しよう
