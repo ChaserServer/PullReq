@@ -52,7 +52,8 @@ def _mawaremigi(hoko, values)
 end
 
 def _oku(hoko, values, target)
-	case　hoko
+	#case　hoko
+	 case hoko
 	when 0
 		values = target.putUp()
 	when 3
